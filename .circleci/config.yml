@@ -17,7 +17,7 @@ jobs:
           public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
           echo $public_ip_address
           gcloud container clusters update standard-cluster-1 --zone  ${GOOGLE_COMPUTE_ZONE} --enable-master-authorized-networks     --master-authorized-networks $public_ip_address/32
-          gcloud container clusters get-credentials standard-cluster-1 --zone ${GOOGLE_COMPUTE_ZONE}--project ${GOOGLE_PROJECT_ID}
+          gcloud container clusters get-credentials standard-cluster-1 --zone ${GOOGLE_COMPUTE_ZONE} --project ${GOOGLE_PROJECT_ID}
       - helm/install-helm-chart:
           chart: stable/rabbitmq
           release-name: rabbitmq
