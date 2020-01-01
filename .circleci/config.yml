@@ -1,6 +1,6 @@
 version: 2.1
-orbs:
-  helm: circleci/helm@0.2.3
+#orbs:
+#  helm: circleci/helm@0.2.3
 jobs:
   build:
     working_directory: ~/k8-deploy
@@ -18,9 +18,11 @@ jobs:
           echo $public_ip_address
           gcloud container clusters update standard-cluster-1 --zone  ${GOOGLE_COMPUTE_ZONE} --enable-master-authorized-networks     --master-authorized-networks $public_ip_address/32
           gcloud container clusters get-credentials standard-cluster-1 --zone ${GOOGLE_COMPUTE_ZONE} --project ${GOOGLE_PROJECT_ID}
-      - helm/install-helm-chart:
-          chart: stable/rabbitmq
-          release-name: rabbitmq
+          chmod +x linux-amd64/helm
+          linux-amd64/helm install rabbitmq stable/rabbitmq
+      #- helm/install-helm-chart:
+      #    chart: stable/rabbitmq
+      #    release-name: rabbitmq
 
           
 
