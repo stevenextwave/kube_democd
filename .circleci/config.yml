@@ -20,7 +20,11 @@ jobs:
           gcloud container clusters update standard-cluster-1 --zone  ${GOOGLE_COMPUTE_ZONE} --enable-master-authorized-networks     --master-authorized-networks $public_ip_address/32
           gcloud container clusters get-credentials standard-cluster-1 --zone ${GOOGLE_COMPUTE_ZONE} --project ${GOOGLE_PROJECT_ID}
           chmod +x linux-amd64/helm
-          kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode
+          export password=`kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode`
+          envsubst < web/deployment.yaml > web_deployment.yaml
+          envsubst < listener/deployment.yaml > listener_deployment.yaml
+          cat  web_deployment.yaml
+          cat listener_deployment.yaml
           #linux-amd64/helm repo add stable https://kubernetes-charts.storage.googleapis.com
           #linux-amd64/helm install rabbitmq stable/rabbitmq
       #- helm/install-helm-chart:

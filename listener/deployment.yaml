@@ -23,7 +23,7 @@ spec:
           - name: USERNAME
             value: "user"
           - name: PASSWORD
-            value: "Rowzs7GKlN"
+            value: ${password}
           - name: NAME
             valueFrom:
               fieldRef:
