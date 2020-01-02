@@ -31,7 +31,7 @@ jobs:
           cat listener_deployment.yaml
 
       - run: |
-          sleep 30     
+          sleep 60     
 
       - kube-orb/create-or-update-resource:
           get-rollout-status: true
@@ -42,7 +42,7 @@ jobs:
           watch-timeout : 30s   
 
       - run: |
-          sleep 30        
+          sleep 60        
 
       - kube-orb/create-or-update-resource:
           get-rollout-status: true
