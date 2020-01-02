@@ -2,7 +2,7 @@ version: 2.1
 #orbs:
 #  helm: circleci/helm@0.2.3
 orbs:
-  kubernetes: circleci/kubernetes@0.11.0
+  kube-orb: circleci/kubernetes@0.11.0
 jobs:
   build:
     working_directory: ~/k8-deploy
