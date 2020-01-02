@@ -1,6 +1,8 @@
 version: 2.1
 #orbs:
 #  helm: circleci/helm@0.2.3
+orbs:
+  kubernetes: circleci/kubernetes@0.11.0
 jobs:
   build:
     working_directory: ~/k8-deploy
@@ -25,11 +27,22 @@ jobs:
           export password=`kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode`
           envsubst < web/deployment.yaml > web_deployment.yaml
           envsubst < listener/deployment.yaml > listener_deployment.yaml
-          cat  web_deployment.yaml
-          cat listener_deployment.yaml
-          kubectl create -f web_deployment.yaml
-          kubectl create -f listener_deployment.yaml
-          kubectl create -f web/service.yaml
+
+      - kube-orb/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path:  web_deployment.yaml
+          resource-name: deployment/web-deployment
+          show-kubectl-command: true 
+          watch-rollout-status: true
+          watch-timeout : 30s   
+
+      - kube-orb/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path:  listener_deployment.yaml
+          resource-name: deployment/listener-deployment
+          show-kubectl-command: true 
+          watch-rollout-status: true
+          watch-timeout : 30s      
 
 
       #- helm/install-helm-chart:
