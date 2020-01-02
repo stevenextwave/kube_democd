@@ -27,6 +27,11 @@ jobs:
           export password=`kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode`
           envsubst < web/deployment.yaml > web_deployment.yaml
           envsubst < listener/deployment.yaml > listener_deployment.yaml
+          cat web_deployment.yaml
+          cat listener_deployment.yaml
+
+      - run: |
+          sleep 10     
 
       - kube-orb/create-or-update-resource:
           get-rollout-status: true
@@ -35,6 +40,9 @@ jobs:
           show-kubectl-command: true 
           watch-rollout-status: true
           watch-timeout : 30s   
+
+      - run: |
+          sleep 10        
 
       - kube-orb/create-or-update-resource:
           get-rollout-status: true
